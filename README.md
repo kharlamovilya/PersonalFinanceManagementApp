@@ -27,7 +27,7 @@ Display total amounts and transaction counts for better financial insights.
 3. Run the application:
 
   ```bash 
-  python finance_app.py [--DEBUG or -d]
+  python main.py
   ```
 # Usage
 ### Main Menu
