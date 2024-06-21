@@ -18,7 +18,7 @@ Display total amounts and transaction counts for better financial insights.
   cd PersonalFinanceManagementApp/
   ```
 
-2. Make sure you have Python installed. Then, install the required packages using pip:e
+2. Make sure you have Python installed. Then, install the required packages using pip:
 
   ```bash
   pip install -r requirements.txt
