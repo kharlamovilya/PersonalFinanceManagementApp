@@ -12,7 +12,7 @@ CSV_FILE = "finances.csv"
 DATA_KEYS = ["date", "category", "expense_type", "title", "amount", "currency", "description"]
 CATEGORIES = ["Income", "Expense", "Liability"]
 EXPENSES = ["Housing", "Transportation", "Food", "Utilities", "Insurance", "Healthcare", "Financial Operations",
-            "Personal Spending"]
+            "Personal Spending", "Other"]
 CURRENCIES = ["USD", "EUR", "CNY", "JPY", "RUB", "HKD"]
 CATEGORY_MAX_LENGTH = 20
 TITLE_MAX_LENGTH = 30
@@ -21,7 +21,7 @@ DESCRIPTION_MAX_LENGTH = 200
 FILTERS = ["Newest", "Oldest", "Amount Increases", "Amount Decreases", "Expense Type"]
 
 
-def get_input_with_confirmation(message, choices=None, input_type="text", min_allowed=None, validate=None,
+def get_input_with_confirmation(message, choices=None, input_type="text", min_allowed=0, validate=None,
                                 keybindings=None, mandatory=False, default=None):
     """Creates Inquirer prompt with confirmation"""
     while True:
@@ -58,7 +58,7 @@ class Transaction:
         :param amount: amount of money of a transaction.
         :param currency: the used currency of a transaction.
         :param description: some description of a transaction.
-        :param fill: to fill a transaction manually through a console menu if True.
+        :param fill: fills a transaction manually through a console menu if True.
         :param fill_random: fills a transaction automatically with random values if True.
         """
         self.category = category
@@ -198,7 +198,13 @@ class TransactionManager:
                 try:
                     if transaction_type in row or transaction_type == "All":
                         transactions.append(tmp)
-                        total += int(row[4])
+                        if transaction_type != "All":
+                            total += int(row[4])
+                        else:
+                            if tmp.category != "Income":
+                                total -= int(row[4])
+                            else:
+                                total += int(row[4])
                 except ValueError:
                     pass
                 except Exception as error:

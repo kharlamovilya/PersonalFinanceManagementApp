@@ -64,21 +64,6 @@ class App:
         elif cmd == "about":
             self.__show_about()
 
-    def __exit(self):
-        clear()
-        print("Goodbye!")
-        sys.exit()
-
-    def __show_about(self):
-        """Displays information about the application."""
-        clear()
-        about_text = """Finance Console App v1.0
-            This application is a personal finance manager that helps you track your income, expenses, and liabilities.
-            You can add, edit, delete, and view transactions, as well as apply filters to sort your transactions.
-            """
-        print(about_text)
-        self.__back()
-
     def __add_transaction(self):
         """Add transaction feature."""
         clear()
@@ -131,10 +116,10 @@ class App:
             # If user selected Back to menu
             clear()
             return None
-        response = self.__choose_filter(cmd)
+        response = self.__choose_filter_menu(cmd)
         return response
 
-    def __choose_filter(self, transaction_type: str):
+    def __choose_filter_menu(self, transaction_type: str):
         """Menu of choosing a filter for transactions to deal with.
         :param transaction_type: a category of a transaction (Income, Expense etc.).
         """
@@ -177,8 +162,10 @@ class App:
         elif self.mode == "Edit":
             print("Choose a transaction to edit\n")
 
-        print(f"Total {amount} {transaction_type.lower()} transactions: {total} USD\n")
-
+        if transaction_type == "All":
+            print(f"Total {amount} {transaction_type.lower()} transactions, your budget is: {total} USD\n")
+        else:
+            print(f"Total {amount} {transaction_type.lower()} transactions: {total} USD\n")
         # Proceed to feature menu
         if self.mode == "See":
             self.__see_transaction_menu(transactions)
@@ -253,6 +240,21 @@ class App:
                 print("Changed successfully\n")
             self.__back()
         return self.__get_transactions_menu()
+
+    def __show_about(self):
+        """Displays information about the application."""
+        clear()
+        about_text = """Finance Console App v1.0
+            This application is a personal finance manager that helps you track your income, expenses, and liabilities.
+            You can add, edit, delete, and view transactions, as well as apply filters to sort your transactions.
+            """
+        print(about_text)
+        self.__back()
+
+    def __exit(self):
+        clear()
+        print("Goodbye!")
+        sys.exit()
 
     @staticmethod
     def __back():
